@@ -41,7 +41,7 @@ namespace Snappass.Controllers
             (string encryptedPassword, string key) = Encryption.Encrypt(password);
             _memoryStore.Store(encryptedPassword, key, timeToLive);
             var model = new GeneratedPassword { Key = key, BaseUri = GetBaseUrl() };
-            return View("Shared", model);
+            return Json(model);
         }
     }
 }

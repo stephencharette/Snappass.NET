@@ -30,14 +30,16 @@ namespace Snappass
                 options.IncludeSubDomains = true;
             });
             services.AddScoped<IMemoryStore, SqliteStore>();
-			services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
+            services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // required for MemoryStore
-			services.AddScoped(sp =>
-			{
-				var databaseFilePath = @"database.sqlite";
-				var connectionString = $@"Data Source={databaseFilePath};Version=3;";
-				return new SQLiteConnection(connectionString);
-			});
+            services.AddScoped(sp =>
+            {
+                var databaseFilePath = @"database.sqlite";
+                var connectionString = $@"Data Source={databaseFilePath};Version=3;";
+                return new SQLiteConnection(connectionString);
+            });
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +54,13 @@ namespace Snappass
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.Use(async (context, next) => {
-                context.Response.Headers.Add("Content-Security-Policy","script-src 'self'; style-src 'self'; img-src 'self'");
+            app.UseCors(builder => builder
+                 .AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "script-src 'self'; style-src 'self'; img-src 'self'");
                 context.Response.Headers.Add("X-Xss-Protection", "1");
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("X-Frame-Options", "DENY");
