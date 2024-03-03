@@ -25,7 +25,7 @@ namespace Snappass.Controllers
             }
             string encryptedPassword = _memoryStore.Retrieve(key);
             string decrypted = Encryption.Decrypt(encryptedPassword, key);
-            return View("Preview", new PreviewModel { Key = decrypted });
+            return Json(new PreviewModel { Key = decrypted });
         }
     }
 }

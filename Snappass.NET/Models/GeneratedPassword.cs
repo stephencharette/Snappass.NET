@@ -4,6 +4,6 @@
     {
         public string Key { get; set; }
         public string BaseUri { get; set; }
-        public string Uri => $@"{BaseUri}/Password/{Key}";
+        public string Uri => $@"{BaseUri}/view?key={Key}";
     }
 }

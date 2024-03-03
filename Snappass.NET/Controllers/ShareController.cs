@@ -24,7 +24,7 @@ namespace Snappass.Controllers
             var request = _httpContextAccessor.HttpContext.Request;
             var host = request.Host.ToUriComponent();
             var pathBase = request.PathBase.ToUriComponent();
-            return $"{request.Scheme}://{host}{pathBase}";
+            return $"http://{host}{pathBase}";
         }
 
         [HttpPost]
