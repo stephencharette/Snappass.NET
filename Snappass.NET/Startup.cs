@@ -82,6 +82,9 @@ namespace Snappass
                 endpoints.MapControllerRoute(
                     name: "password",
                     pattern: "Password/{key}", new { controller = "Password", action = "Preview" });
+                endpoints.MapControllerRoute(
+                    name: "user",
+                    pattern: "User/{userId}", new { controller = "User", action = "Get" });
             });
         }
     }
